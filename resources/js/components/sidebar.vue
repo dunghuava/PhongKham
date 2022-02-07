@@ -2,7 +2,7 @@
     <aside class="main-sidebar sidebar-dark-primary">
         <div class="sidebar">
             <a class="brand-link text-center">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">Phong Kham</span>
             </a>
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column">
@@ -26,7 +26,7 @@
                             <li>
                                 <b-link to="/category/list" class="nav-link">
                                     <i class="fa fa-angle-right nav-icon"></i>
-                                    <p>Danh mục</p>
+                                    <p>Thể loại</p>
                                 </b-link>
                             </li>
                             <li>
