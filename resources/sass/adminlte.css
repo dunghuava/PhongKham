@@ -11003,7 +11003,7 @@ body:not(.layout-fixed).layout-navbar-fixed.text-sm .wrapper .main-sidebar .side
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 1033;
+    z-index: 1000;
 }
 
 .layout-navbar-fixed.text-sm .wrapper .content-wrapper {
@@ -11101,7 +11101,7 @@ body:not(.layout-fixed).layout-navbar-fixed.text-sm .wrapper .main-sidebar .side
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 1037;
+    z-index: 1000;
 }
 
 .layout-navbar-fixed.text-sm .wrapper .content-wrapper {
@@ -11194,7 +11194,7 @@ body:not(.layout-fixed).layout-navbar-fixed.text-sm .wrapper .main-sidebar .side
         position: fixed;
         right: 0;
         top: 0;
-        z-index: 1037;
+        z-index: 1000;
     }
     .layout-sm-navbar-fixed.text-sm .wrapper .content-wrapper {
         margin-top: calc(2.93725rem + 1px);
@@ -12243,7 +12243,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 
 .main-header {
     border-bottom: 1px solid #dee2e6;
-    z-index: 1034;
+    z-index: 1000;
 }
 
 .main-header .nav-link {
@@ -12539,7 +12539,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
 .main-sidebar {
     height: 100vh;
     overflow-y: hidden;
-    z-index: 1038;
+    z-index: 1000;
 }
 
 .main-sidebar a:-moz-focusring {

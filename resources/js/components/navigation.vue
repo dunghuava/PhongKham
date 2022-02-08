@@ -6,40 +6,30 @@
                 <a @click="toogleSidebar" class="nav-link" role="button"><i class="fas fa-bars"></i></a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="index3.html" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
+                <b-link to="/" class="nav-link">Dashboard</b-link>
             </li>
         </ul>
+        <form onsubmit="return false" class="form-inline ml-3" style="position:relative">
+            <div class="input-group input-group-sm">
+                <input id="search-area" class="form-control form-control-navbar" type="search" placeholder="Tìm kiếm" aria-label="Search" autocomplete="off">
+                <div class="input-group-append">
+                    <button class="btn btn-navbar" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <!-- Navbar Search -->
             <li class="nav-item">
-                <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                    <i class="fas fa-search"></i>
-                </a>
-                <div class="navbar-search-block">
-                    <form class="form-inline">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-navbar" type="submit">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                <b-link to="/setting/profile" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                </b-link>
             </li>
-            <!-- Notifications Dropdown Menu -->
             <li class="nav-item">
-                <a class="nav-link">
-                    <i class="fa fa-user"></i>
-                </a>
+                <b-link @click="userLogout" class="nav-link">
+                    <i class="fa fa-sign-in-alt"></i>
+                </b-link>
             </li>
         </ul>
     </nav>
@@ -52,6 +42,20 @@ export default {
         toogleSidebar:function (){
             const _main_sidebar = $('.sidebar-mini');
             _main_sidebar.toggleClass('sidebar-collapse');
+        },
+        userLogout:function (){
+            Swal.fire({
+                title: 'Bạn có muốn đăng xuất ?',
+                icon:'question',
+                showCancelButton: true,
+                confirmButtonText: 'Đăng xuất'
+            }).then((result) => {
+                if(result.isConfirmed){
+                    axios.post('/auth/logout').then(function (response){
+                        location.href = '/auth/login';
+                    });
+                }
+            })
         }
     }
 }

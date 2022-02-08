@@ -17,6 +17,20 @@ Vue.use(IconsPlugin);
 window.$ = require('jquery');
 window.axios = require('axios');
 window.toastr = require('toastr');
+window.NProgress = require('nprogress/nprogress');
+window.Swal = require('sweetalert2');
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 
 const csrf_token = document.querySelector('[name="csrf-token"]');
 if(!csrf_token){
@@ -25,25 +39,60 @@ if(!csrf_token){
 
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf_token.content;
 axios.defaults.transformRequest.splice(0, 0, function (data) {
+    NProgress.start();
     return data;
 });
+
+NProgress.configure({
+    showSpinner: true
+});
+
 axios.defaults.transformResponse.push(function (data){
     if(data.status && data.message){
         switch (data.status){
             case 'success':
-                toastr.success(data.message);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: data.message,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
                 break;
             case 'warning':
-                toastr.warning(data.message);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    title: data.message,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
                 break;
             case 'error':
-                toastr.error(data.message);
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: data.message,
+                    showConfirmButton: false,
+                    timer: 1000
+                })
                 break;
         }
+    }else if(data.message){
+        Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: data.message,
+            showConfirmButton: false,
+            timer: 1000
+        })
     }
     if(data.redirect){
         router.push(data.redirect);
     }
+    setTimeout(()=>{
+        NProgress.done();
+    },500)
     return data;
 });
 

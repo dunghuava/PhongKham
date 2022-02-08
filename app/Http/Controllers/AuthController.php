@@ -23,7 +23,7 @@ class AuthController extends Controller
         $username = $request->username;
         $password = $request->password;
         $data = [
-            'email' => $username,
+            'username' => $username,
             'password' => $password
         ];
 
@@ -50,5 +50,9 @@ class AuthController extends Controller
             ]);
         }
         return [];
+    }
+
+    public function logout(){
+        Auth::logout();
     }
 }

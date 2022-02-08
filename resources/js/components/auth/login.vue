@@ -6,7 +6,7 @@
                     <p class="login-box-msg">Sign in to start your session</p>
                     <form @submit="userLogin" method="post">
                         <div class="input-group mb-3">
-                            <input required v-model="auth.username" type="email" class="form-control" placeholder="Tài khoản">
+                            <input required v-model="auth.username" type="text" class="form-control" placeholder="Tài khoản">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
                                     <span class="fas fa-user"></span>

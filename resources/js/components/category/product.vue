@@ -2,11 +2,9 @@
     <div>
         <b-table
             :fields="fields"
-            stacked="md"
+            class="table-striped border"
             show-empty
-            small
         >
-
         </b-table>
     </div>
 </template>

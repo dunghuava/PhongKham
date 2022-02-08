@@ -1,5 +1,5 @@
-@import 'variables';
 @import "~toastr";
+@import "~nprogress/nprogress.css";
 @import "~@fortawesome/fontawesome-free/css/solid.min.css";
 @import "~@fortawesome/fontawesome-free/css/brands.min.css";
 @import "~@fortawesome/fontawesome-free/css/regular.min.css";
@@ -7,3 +7,7 @@
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
 @import "adminlte.css";
+
+.swal2-title{
+    font-size: 24px !important;
+}

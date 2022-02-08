@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         \App\User::create([
             'name'=>'Van Dung',
+            'username'=>'dunghuava',
             'email'=>'dunghuava@gmail.com',
             'password'=>bcrypt(12345)
         ]);

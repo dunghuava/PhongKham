@@ -37,6 +37,29 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <b-link class="nav-link">
+                            <i class="nav-icon fas fa-cogs"></i>
+                            <p>
+                                Cài đặt
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </b-link>
+                        <ul class="nav nav-treeview">
+                            <li>
+                                <b-link to="/setting/profile" class="nav-link">
+                                    <i class="fa fa-angle-right nav-icon"></i>
+                                    <p>Cá nhân</p>
+                                </b-link>
+                            </li>
+                            <li>
+                                <b-link to="/setting/system" class="nav-link">
+                                    <i class="fa fa-angle-right nav-icon"></i>
+                                    <p>Hệ thống</p>
+                                </b-link>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
         </div>

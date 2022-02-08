@@ -29,6 +29,20 @@ const router = new VueRouter({
                     meta:{
                         title:'Sản phẩm'
                     }
+                },
+                {
+                    path:'/setting/profile',
+                    component: require('../components/setting/profile').default,
+                    meta:{
+                        title:'Cá nhân'
+                    }
+                },
+                {
+                    path:'/setting/system',
+                    component: require('../components/setting/system').default,
+                    meta:{
+                        title:'Hệ thống'
+                    }
                 }
             ],
         },
