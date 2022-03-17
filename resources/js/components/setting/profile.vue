@@ -67,7 +67,7 @@ export default {
         let vm = this;
         axios.post('/setting/profile').then(function (response){
             vm.frmData = response.data;
-        })
+        });
     },
     methods:{
         saveProfile:function (e){

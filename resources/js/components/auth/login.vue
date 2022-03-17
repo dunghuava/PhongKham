@@ -57,7 +57,7 @@ export default {
             let vm = this;
             vm.process = true;
             axios.post('/auth/login',vm.auth).then(function (response){
-                vm.process = false;
+                // code
             });
         },
         checkUserLogin:function (){

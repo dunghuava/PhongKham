@@ -41,9 +41,9 @@ export default {
     components:{
         sidebar,navigation
     },
-    data: function () {
+    data: function (){
         return {
-
+            appInfo:null
         }
     }
 }

@@ -72,12 +72,25 @@ export default {
     mounted() {
         $('.nav-item').click(function (e){
             let _this = $(this);
-            $('.nav-item').removeClass('menu-open').find('.nav-link').removeClass('active').find('.nav-treeview').slideUp();
+            $('.nav-item').removeClass('menu-open')
+                .find('.nav-link')
+                .removeClass('active')
+                .find('.nav-treeview')
+                .slideUp();
             if(!_this.hasClass('menu-open')){
-                _this.addClass('menu-open').find('.nav-link').first().addClass('active').find('.nav-treeview').slideDown();
+                _this.addClass('menu-open')
+                    .find('.nav-link')
+                    .first()
+                    .addClass('active')
+                    .find('.nav-treeview')
+                    .slideDown();
             }
         });
-        $('.router-link-exact-active.router-link-active').parents('.nav-item').addClass('menu-open').find('.nav-link').first().addClass('active');
+        $('.router-link-exact-active.router-link-active').parents('.nav-item')
+            .addClass('menu-open')
+            .find('.nav-link')
+            .first()
+            .addClass('active');
     }
 }
 </script>

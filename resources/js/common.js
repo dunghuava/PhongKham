@@ -106,5 +106,5 @@ const init = new Vue({
     el: '#app',
     template:'<app></app>',
     components: {app},
-    router,
+    router
 });

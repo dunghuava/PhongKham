@@ -31,14 +31,14 @@ class AuthController extends Controller
             return response([
                 'status'=>'success',
                 'message'=>'Đăng nhập thành công',
-                'redirect'=>'/'
+                'redirect'=>'/',
             ]);
         }
 
         return response([
             'status'=>'error',
             'message'=>'Thông tin đăng nhập không chính xác',
-        ]);
+        ],404);
     }
 
     public function checkUserLogin(){

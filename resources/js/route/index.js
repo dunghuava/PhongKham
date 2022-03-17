@@ -43,7 +43,7 @@ const router = new VueRouter({
                     meta:{
                         title:'Hệ thống'
                     }
-                }
+                },
             ],
         },
         {
@@ -58,6 +58,13 @@ const router = new VueRouter({
                     }
                 }
             ],
+        },
+        {
+            path: '*',
+            component: require('../components/errors/404').default,
+            meta: {
+                title: '404 Not Found'
+            }
         }
     ]
 });
