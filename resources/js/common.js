@@ -24,12 +24,7 @@ const Toast = Swal.mixin({
     toast: true,
     position: 'top',
     showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
+    timer: 3000
 })
 
 const csrf_token = document.querySelector('[name="csrf-token"]');
@@ -51,41 +46,29 @@ axios.defaults.transformResponse.push(function (data){
     if(data.status && data.message){
         switch (data.status){
             case 'success':
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
+                Toast.fire({
                     title: data.message,
-                    showConfirmButton: false,
-                    timer: 1000
-                })
+                    icon: 'success'
+                  });
                 break;
             case 'warning':
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
+                Toast.fire({
                     title: data.message,
-                    showConfirmButton: false,
-                    timer: 1000
-                })
+                    icon: 'warning'
+                  });
                 break;
             case 'error':
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
+                Toast.fire({
                     title: data.message,
-                    showConfirmButton: false,
-                    timer: 1000
-                })
+                    icon: 'error'
+                  });
                 break;
         }
     }else if(data.message){
-        Swal.fire({
-            position: 'center',
-            icon: 'error',
+        Toast.fire({
             title: data.message,
-            showConfirmButton: false,
-            timer: 1000
-        })
+            icon: 'error'
+          });
     }
     if(data.redirect){
         router.push(data.redirect);

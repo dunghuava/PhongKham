@@ -4,55 +4,99 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\User;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    //
-    function init()
+    public function signup(Request $request)
     {
-        // TODO: Implement init() method.
-    }
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|confirmed'
+        ]);
 
-    public function index()
-
-    {
-        // TODO: Implement index() method.
-    }
-
-    public function login(Request $request){
-        $username = $request->username;
-        $password = $request->password;
-        $data = [
-            'username' => $username,
-            'password' => $password
-        ];
-
-        if(Auth::attempt($data,true)){
-            return response([
-                'status'=>'success',
-                'message'=>'Đăng nhập thành công',
-                'redirect'=>'/',
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'fails',
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors()->toArray(),
             ]);
         }
 
-        return response([
-            'status'=>'error',
-            'message'=>'Thông tin đăng nhập không chính xác',
-        ],404);
+        $user = new User([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => bcrypt($request->password)
+        ]);
+
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
-    public function checkUserLogin(){
-        if(Auth::check()){
-            return response([
-                'status'=>'success',
-                'message'=>'Bạn đã đăng nhập',
-                'redirect'=>'/'
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            'remember_me' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'fails',
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors()->toArray(),
             ]);
         }
-        return [];
+
+        $credentials = request(['email', 'password']);
+
+        if (!Auth::attempt($credentials)) {
+            return response()->json([
+                'status' => 'fails',
+                'message' => 'Unauthorized'
+            ], 401);
+        }
+
+        $user = $request->user();
+
+        $tokenResult = $user->createToken($user->name);
+
+        $token = $tokenResult->token;
+
+        if ($request->remember_me) {
+            $token->expires_at = Carbon::now()->addWeeks(1);
+        }
+
+        $token->save();
+
+        return response()->json([
+            'status' => 'success',
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse(
+                $tokenResult->token->expires_at
+            )->toDateTimeString()
+        ]);
     }
 
-    public function logout(){
-        Auth::logout();
+    public function logout(Request $request)
+    {
+        $request->user()->token()->revoke();
+        return response()->json([
+            'status' => 'success',
+        ]);
+    }
+
+    public function user(Request $request)
+    {
+        return response()->json($request->user());
     }
 }
