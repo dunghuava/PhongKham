@@ -1,5 +1,5 @@
 <template>
-    <aside class="main-sidebar sidebar-dark-primary">
+    <aside class="main-sidebar shadow">
         <div class="sidebar">
             <a class="brand-link text-center">
                 <span class="brand-text font-weight-light">Phong Kham</span>
@@ -24,14 +24,12 @@
                         </b-link>
                         <ul class="nav nav-treeview">
                             <li>
-                                <b-link to="/category/list" class="nav-link">
-                                    <i class="fa fa-angle-right nav-icon"></i>
-                                    <p>Thể loại</p>
+                                <b-link to="/service/list" class="nav-link">
+                                    <p>Dịch vụ</p>
                                 </b-link>
                             </li>
                             <li>
                                 <b-link to="/product/list" class="nav-link">
-                                    <i class="fa fa-angle-right nav-icon"></i>
                                     <p>Sản phẩm</p>
                                 </b-link>
                             </li>
@@ -48,13 +46,11 @@
                         <ul class="nav nav-treeview">
                             <li>
                                 <b-link to="/setting/profile" class="nav-link">
-                                    <i class="fa fa-angle-right nav-icon"></i>
                                     <p>Cá nhân</p>
                                 </b-link>
                             </li>
                             <li>
                                 <b-link to="/setting/system" class="nav-link">
-                                    <i class="fa fa-angle-right nav-icon"></i>
                                     <p>Hệ thống</p>
                                 </b-link>
                             </li>

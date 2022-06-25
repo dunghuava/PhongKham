@@ -1,8 +1,11 @@
 <template>
     <div>
-        <b-row>
-            <b-col>
-                <b-card class="card-primary card-outline">
+        <b-row class="justify-content-center">
+            <b-col cols="8">
+                <div class="text-center mb-2">
+                    <b-avatar size="120px" src="https://placekitten.com/300/300"></b-avatar>
+                </div>
+                <b-card>
                     <b-form @submit="saveProfile">
                         <b-form-group
                             label="Họ và tên"
@@ -36,10 +39,12 @@
                         >
                             <b-form-input type="password" v-model="frmData.repassword" :state="state('repassword')" trim></b-form-input>
                         </b-form-group>
-                        <b-button type="submit" variant="primary">
-                            <b-spinner v-if="process" small label="Small Spinner"></b-spinner> Cập nhật
-                        </b-button>
-                        <b-button to="/" variant="danger">Hủy</b-button>
+                        <div class="text-center">
+                                <b-button type="submit" variant="success">
+                                    <b-spinner v-if="process" small label="Small Spinner"></b-spinner> Cập nhật
+                                </b-button>
+                                <b-button to="/" variant="light">Hủy</b-button>
+                        </div>
                     </b-form>
                 </b-card>
             </b-col>

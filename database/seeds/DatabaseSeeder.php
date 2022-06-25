@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             'name'=>'Van Dung',
             'username'=>'dunghuava',
             'email'=>'dunghuava@gmail.com',
-            'password'=>bcrypt(12345)
+            'password'=>bcrypt(123456)
         ]);
     }
 }

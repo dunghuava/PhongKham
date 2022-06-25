@@ -17,10 +17,10 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path:'/category/list',
-                    component: require('../components/category/category').default,
+                    path:'/service/list',
+                    component: require('../components/category/service').default,
                     meta:{
-                        title:'Danh mục'
+                        title:'Dịch vụ'
                     }
                 },
                 {

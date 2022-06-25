@@ -18,14 +18,12 @@ window.$ = require('jquery');
 window.axios = require('axios');
 window.toastr = require('toastr');
 window.NProgress = require('nprogress/nprogress');
-window.Swal = require('sweetalert2');
 
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top',
-    showConfirmButton: false,
-    timer: 3000
-})
+try {
+    require('jquery-confirm');
+} catch (error) {
+    console.error('Loading Lib Error')
+}
 
 const csrf_token = document.querySelector('[name="csrf-token"]');
 if(!csrf_token){
@@ -39,43 +37,64 @@ axios.defaults.transformRequest.splice(0, 0, function (data) {
 });
 
 NProgress.configure({
-    showSpinner: true
+    showSpinner: false
 });
 
-axios.defaults.transformResponse.push(function (data){
-    if(data.status && data.message){
-        switch (data.status){
-            case 'success':
-                Toast.fire({
-                    title: data.message,
-                    icon: 'success'
-                  });
-                break;
-            case 'warning':
-                Toast.fire({
-                    title: data.message,
-                    icon: 'warning'
-                  });
-                break;
-            case 'error':
-                Toast.fire({
-                    title: data.message,
-                    icon: 'error'
-                  });
-                break;
+axios.defaults.transformResponse.push(function (data) {
+    // Before response data
+    // if (data.constructor !== Object && data.constructor !== Array) {
+    //     toastr.warning(i18n.t('core.disconnect'), 'error');
+    //     return;
+    // }
+    (new Promise((resolve) => {
+        if (data.reload) {
+            window.app.reloaded().then(() => {
+                resolve();
+            });
+        } else {
+            resolve();
         }
-    }else if(data.message){
-        Toast.fire({
-            title: data.message,
-            icon: 'error'
-          });
-    }
-    if(data.redirect){
-        router.push(data.redirect);
-    }
-    setTimeout(()=>{
-        NProgress.done();
-    },500)
+    })).then(() => {
+        let message = false;
+        if (data.message) {
+            message = data.message;
+        } else if (data.response && data.response.message) {
+            message = data.response.message;
+        }
+        let status = (data.status || 'error').toString().toLowerCase();
+        if (message) {
+            switch (status) {
+                case 'success':
+                    toastr.success(message);
+                    break;
+
+                case 'info':
+                    toastr.info(message);
+                    break;
+
+                case 'warning':
+                    toastr.warning(message);
+                    break;
+
+                case 'error':
+                default:
+                    toastr.error(message);
+                    break;
+            }
+        }
+        let redirect = data.redirect || false;
+        if (redirect) {
+            let redirectOptions = {path: redirect};
+            let withCurrentUri = data.withCurrentUri || false;
+            if (withCurrentUri) {
+                redirectOptions.query = {
+                    redirect: router.currentRoute.fullPath
+                };
+            }
+            router.push(redirectOptions);
+        }
+    });
+    NProgress.done();
     return data;
 });
 
@@ -85,9 +104,34 @@ axios.defaults.transformResponse.push(function (data){
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const init = new Vue({
-    el: '#app',
-    template:'<app></app>',
-    components: {app},
-    router
+ axios.post('/auth/info').then(function(response){
+    window.info = response.data;
+    Vue.mixin({
+        data(){
+            return {
+                get app(){
+                    return window.info
+                }
+            }
+        },
+        methods: {
+            reloaded:function(){
+                return  axios.post('/auth/info').then(function(response){
+                    window.info = response.data;
+                })
+            },
+            formatPrice:function(value){
+                let number = value.replace(/[^0-9]/g,'');
+                if(!number)
+                    return '';
+                return Number(number).toLocaleString();
+            }
+        }
+    });
+    window.app = new Vue({
+        el: '#app',
+        template:'<app></app>',
+        components: {app},
+        router,
+    })
 });

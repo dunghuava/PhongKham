@@ -27,6 +27,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.4",
         "bootstrap-vue": "^2.21.2",
+        "jquery-confirm": "^3.3.4",
         "nprogress": "^0.2.0",
         "sweetalert2": "^11.4.0",
         "toastr": "^2.1.4"

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{mix('/css/common.css')}}">
     <title>Index</title>
 </head>
-<body class="sidebar-mini control-sidebar-slide-open layout-fixed">
+<body class="sidebar-mini control-sidebar-slide-open layout-fixed layout-navbar-fixed">
     <div id="app"></div>
     <script src="{{mix('js/common.js')}}"></script>
 </body>

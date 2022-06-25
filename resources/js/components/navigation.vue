@@ -3,34 +3,22 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a @click="toogleSidebar" class="nav-link" role="button"><i class="fas fa-bars"></i></a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <b-link to="/" class="nav-link">Dashboard</b-link>
+                <a class="nav-link" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
-        <form onsubmit="return false" class="form-inline ml-3" style="position:relative">
-            <div class="input-group input-group-sm">
-                <input id="search-area" class="form-control form-control-navbar" type="search" placeholder="Tìm kiếm" aria-label="Search" autocomplete="off">
-                <div class="input-group-append">
-                    <button class="btn btn-navbar" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <b-link to="/setting/profile" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                </b-link>
-            </li>
-            <li class="nav-item">
-                <b-link @click="userLogout" class="nav-link">
-                    <i class="fa fa-sign-in-alt"></i>
-                </b-link>
-            </li>
+            <b-nav-item-dropdown right>
+                <template #button-content>
+                    <b-avatar size="35px" src="https://placekitten.com/300/300"></b-avatar>
+                </template>
+                <b-dropdown-item to="/setting/profile">
+                    <i class="fa fa-user"></i> Profile
+                </b-dropdown-item>
+                <b-dropdown-item @click="userLogout">
+                    <i class="fa fa-sign-out-alt"></i> Sign Out
+                </b-dropdown-item>
+            </b-nav-item-dropdown>
         </ul>
     </nav>
 </template>
@@ -44,18 +32,28 @@ export default {
             _main_sidebar.toggleClass('sidebar-collapse');
         },
         userLogout:function (){
-            Swal.fire({
-                title: 'Bạn có muốn đăng xuất ?',
-                icon:'question',
-                showCancelButton: true,
-                confirmButtonText: 'Đăng xuất'
-            }).then((result) => {
-                if(result.isConfirmed){
-                    axios.post('/auth/logout').then(function (response){
-                        location.href = '/auth/login';
-                    });
+            let vm = this;
+            $.confirm({
+                title: 'Thông báo',
+                content: 'Kết thúc phiên làm việc ?',
+                icon: 'fas fa-exclamation-circle',
+                backgroundDismiss: true,
+                animateFromElement: false,
+                buttons: {
+                    tryAgain: {
+                        text: 'Đồng ý',
+                        btnClass: 'btn-red',
+                        action: function(){
+                            axios.post('/auth/logout').then(function (response){
+                                // success
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'Hủy bỏ'
+                    }
                 }
-            })
+            });
         }
     }
 }

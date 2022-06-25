@@ -3,82 +3,62 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Product;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $items = Product::paginate();
+        return $this->response($items);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function delete(Request $request){
+        try{
+            $deleted = Product::find($request->id)->delete();
+            return $this->response([
+                'status' => 'success',
+                'message' => 'Đã xóa sản phẩm'
+            ]);
+        }catch(\Exception $e){
+            return $this->response([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ],500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function getItem(Request $request){
+        $item = Product::find($request->id);
+        if(!$item){
+            return $this->response([
+                'status' => 'error',
+                'message' => 'Không tìm thấy dữ liệu yêu cầu'
+            ],404);
+        }
+        return $this->response($item);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+    public function saveItem(Request $request){
+        $action = $request->action ?? 'create';
+        $item = new Product();
+        if($action == 'update'){
+            $item = Product::find($request->id);
+        }
+        $item->code = $request->code;
+        $item->name = $request->name;
+        $item->price = (double) str_replace(',','',$request->price);
+        $item->status = (int) $request->status;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        if($item->save()){
+            return $this->response([
+                'status' => 'success',
+                'message' => 'Cập nhật thành công'
+            ]);
+        }
+        return $this->response([
+            'status' => 'error',
+            'message' => 'Không thể cập nhật sản phẩm'
+        ],404);
     }
 }

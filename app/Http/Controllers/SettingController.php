@@ -18,7 +18,8 @@ class SettingController extends Controller
     function index()
     {
         // TODO: Implement index() method.
-        return response(Auth::user());
+        $user = Auth::user();
+        return $this->response($user);
     }
 
     function updateProfile(Request $request){
