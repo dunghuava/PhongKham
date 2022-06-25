@@ -13,7 +13,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SettingController;
 
 Route::group(['prefix'=>'auth'],function(){
@@ -22,12 +21,6 @@ Route::group(['prefix'=>'auth'],function(){
     Route::post('logout',[AuthController::class,'logout']);
 });
 
-Route::group(['prefix' => 'product'], function() {
-    Route::post('list',[ProductController::class,'index']);
-    Route::post('delete',[ProductController::class,'delete']);
-    Route::post('get',[ProductController::class,'getItem']);
-    Route::post('save',[ProductController::class,'saveItem']);
-});
 
 Route::group(['prefix' => 'setting'], function() {
     Route::post('profile',[SettingController::class,'index']);

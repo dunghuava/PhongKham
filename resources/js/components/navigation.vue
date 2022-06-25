@@ -3,7 +3,7 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" role="button"><i class="fas fa-bars"></i></a>
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
         </ul>
         <!-- Right navbar links -->
@@ -27,10 +27,6 @@
 export default {
     name:'Navigation',
     methods:{
-        toogleSidebar:function (){
-            const _main_sidebar = $('.sidebar-mini');
-            _main_sidebar.toggleClass('sidebar-collapse');
-        },
         userLogout:function (){
             let vm = this;
             $.confirm({

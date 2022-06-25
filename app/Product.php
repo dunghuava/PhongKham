@@ -2,18 +2,23 @@
 
 namespace App;
 
+use App\Http\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $table = 'product';
+    use Filterable;
 
-    protected $appends = ['status_label'];
+    protected $table = 'products';
 
-    protected function getStatusLabelAttribute(){
-        if($this->status){
-            return 'Bật';
-        }
-        return 'Tắt';
-    }
+    protected $fillable = ['code','name','price','status','description'];
+
+    protected $fillter = ['code','name','status'];
+
+    protected $casts = [
+        'status' => 'boolean'
+    ];
+
+    const ACTIVE = 1;
+    const INACTIVE = 0;
 }

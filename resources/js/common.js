@@ -21,6 +21,7 @@ window.NProgress = require('nprogress/nprogress');
 
 try {
     require('jquery-confirm');
+    require('../templates/js/script');
 } catch (error) {
     console.error('Loading Lib Error')
 }
@@ -41,11 +42,6 @@ NProgress.configure({
 });
 
 axios.defaults.transformResponse.push(function (data) {
-    // Before response data
-    // if (data.constructor !== Object && data.constructor !== Array) {
-    //     toastr.warning(i18n.t('core.disconnect'), 'error');
-    //     return;
-    // }
     (new Promise((resolve) => {
         if (data.reload) {
             window.app.reloaded().then(() => {
@@ -111,7 +107,13 @@ axios.defaults.transformResponse.push(function (data) {
             return {
                 get app(){
                     return window.info
-                }
+                },
+                breadcrumb:[
+                    {
+                        text: 'Trang chủ',
+                        to: '/'
+                    }
+                ]
             }
         },
         methods: {
@@ -120,11 +122,8 @@ axios.defaults.transformResponse.push(function (data) {
                     window.info = response.data;
                 })
             },
-            formatPrice:function(value){
-                let number = value.replace(/[^0-9]/g,'');
-                if(!number)
-                    return '';
-                return Number(number).toLocaleString();
+            toPrice:function(value){
+                return Number(value.replace(/[^0-9]/g,'')).toLocaleString();
             }
         }
     });

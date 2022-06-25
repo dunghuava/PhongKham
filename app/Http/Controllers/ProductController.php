@@ -2,63 +2,96 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 use App\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
-        $items = Product::paginate();
-        return $this->response($items);
+        $paginate = Product::fillter($request)->orderBy('id','desc')->paginate();
+        return $this->response($paginate);
     }
 
-    public function delete(Request $request){
-        try{
-            $deleted = Product::find($request->id)->delete();
-            return $this->response([
-                'status' => 'success',
-                'message' => 'Đã xóa sản phẩm'
-            ]);
-        }catch(\Exception $e){
-            return $this->response([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ],500);
-        }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(ProductRequest $request)
+    {
+        $request->merge([
+            'price' => preg_replace('/[^0-9]/','',$request->price)
+        ]);
+        Product::create($request->all());
+        return $this->response([
+            'status' => 'success',
+            'message' => trans('action.create.success')
+        ]);
     }
 
-    public function getItem(Request $request){
-        $item = Product::find($request->id);
-        if(!$item){
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Product $product)
+    {
+        if(!$product){
             return $this->response([
                 'status' => 'error',
-                'message' => 'Không tìm thấy dữ liệu yêu cầu'
+                'message' => trans('action.get.error')
             ],404);
         }
-        return $this->response($item);
+        return $this->response($product);
     }
 
-    public function saveItem(Request $request){
-        $action = $request->action ?? 'create';
-        $item = new Product();
-        if($action == 'update'){
-            $item = Product::find($request->id);
-        }
-        $item->code = $request->code;
-        $item->name = $request->name;
-        $item->price = (double) str_replace(',','',$request->price);
-        $item->status = (int) $request->status;
-
-        if($item->save()){
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(ProductRequest $request, Product $product)
+    {
+        $request->merge([
+            'price' => preg_replace('/[^0-9]/','',$request->price)
+        ]);
+        if($product){
+            $product->update($request->all());
             return $this->response([
                 'status' => 'success',
-                'message' => 'Cập nhật thành công'
+                'message' => trans('action.update.success')
             ]);
         }
         return $this->response([
             'status' => 'error',
-            'message' => 'Không thể cập nhật sản phẩm'
+            'message' => trans('action.update.error')
         ],404);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Product $product)
+    {
+        if($product->delete()){
+            return $this->response([
+                'status' => 'success',
+                'message' => trans('action.delete.success')
+            ]);
+        }
     }
 }

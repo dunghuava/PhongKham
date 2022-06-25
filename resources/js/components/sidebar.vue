@@ -1,7 +1,7 @@
 <template>
     <aside class="main-sidebar shadow">
         <div class="sidebar">
-            <a class="brand-link text-center">
+            <a to="/" class="brand-link text-center text-success">
                 <span class="brand-text font-weight-light">Phong Kham</span>
             </a>
             <nav class="mt-2">
@@ -64,29 +64,6 @@
 
 <script>
 export default {
-    name:'Sidebar',
-    mounted() {
-        $('.nav-item').click(function (e){
-            let _this = $(this);
-            $('.nav-item').removeClass('menu-open')
-                .find('.nav-link')
-                .removeClass('active')
-                .find('.nav-treeview')
-                .slideUp();
-            if(!_this.hasClass('menu-open')){
-                _this.addClass('menu-open')
-                    .find('.nav-link')
-                    .first()
-                    .addClass('active')
-                    .find('.nav-treeview')
-                    .slideDown();
-            }
-        });
-        $('.router-link-exact-active.router-link-active').parents('.nav-item')
-            .addClass('menu-open')
-            .find('.nav-link')
-            .first()
-            .addClass('active');
-    }
+    name:'Sidebar'
 }
 </script>

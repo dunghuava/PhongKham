@@ -18,16 +18,54 @@ const router = new VueRouter({
                 },
                 {
                     path:'/service/list',
-                    component: require('../components/category/service').default,
+                    name:'service',
+                    component: require('../components/service/index').default,
                     meta:{
                         title:'Dịch vụ'
                     }
                 },
                 {
+                    path:'/service/create',
+                    name:'service.create',
+                    component: require('../components/service/edit').default,
+                    meta:{
+                        title:'Dịch vụ',
+                        action: 'create'
+                    }
+                },
+                {
+                    path:'/service/:id/update',
+                    name:'service.update',
+                    component: require('../components/service/edit').default,
+                    meta:{
+                        title:'Dịch vụ',
+                        action: 'update'
+                    }
+                },
+                {
                     path:'/product/list',
-                    component: require('../components/category/product').default,
+                    name:'product',
+                    component: require('../components/product/index').default,
                     meta:{
                         title:'Sản phẩm'
+                    }
+                },
+                {
+                    path:'/product/create',
+                    name:'product.create',
+                    component: require('../components/product/edit').default,
+                    meta:{
+                        title:'Thêm sản phẩm',
+                        action: 'create'
+                    }
+                },
+                {
+                    path:'/product/:id/update',
+                    name:'product.update',
+                    component: require('../components/product/edit').default,
+                    meta:{
+                        title:'Cập nhật sản phẩm',
+                        action: 'update'
                     }
                 },
                 {

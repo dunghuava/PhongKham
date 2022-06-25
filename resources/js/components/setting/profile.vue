@@ -40,10 +40,10 @@
                             <b-form-input type="password" v-model="frmData.repassword" :state="state('repassword')" trim></b-form-input>
                         </b-form-group>
                         <div class="text-center">
+                                <b-button to="/" variant="light">Hủy</b-button>
                                 <b-button type="submit" variant="success">
                                     <b-spinner v-if="process" small label="Small Spinner"></b-spinner> Cập nhật
                                 </b-button>
-                                <b-button to="/" variant="light">Hủy</b-button>
                         </div>
                     </b-form>
                 </b-card>
