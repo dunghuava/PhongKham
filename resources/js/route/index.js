@@ -11,7 +11,7 @@ const router = new VueRouter({
             children:[
                 {
                     path:'/',
-                    component: require('../components/dashboard').default,
+                    component: require('../components/index').default,
                     meta:{
                         title:'Tổng quan'
                     }
@@ -70,6 +70,7 @@ const router = new VueRouter({
                 },
                 {
                     path:'/setting/profile',
+                    name:'profile',
                     component: require('../components/setting/profile').default,
                     meta:{
                         title:'Cá nhân'
@@ -77,6 +78,7 @@ const router = new VueRouter({
                 },
                 {
                     path:'/setting/system',
+                    name:'setting',
                     component: require('../components/setting/system').default,
                     meta:{
                         title:'Hệ thống'

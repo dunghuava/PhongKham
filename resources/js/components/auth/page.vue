@@ -1,5 +1,9 @@
 <template>
-        <router-view></router-view>
+    <div class="page-login">
+        <b-container class="page-center">
+            <router-view></router-view>
+        </b-container>
+    </div>
 </template>
 
 <script>

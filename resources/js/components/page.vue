@@ -1,13 +1,16 @@
 <template>
-    <div class="wrapper">
-        <sidebar></sidebar>
-        <navigation></navigation>
-        <div class="content-wrapper">
-            <section class="content pt-3">
-                <div class="container-fluid">
-                    <router-view></router-view>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <sidebar></sidebar>
+            <div class="layout-page">
+                <navigation></navigation>
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <router-view></router-view>
+                    </div>
                 </div>
-            </section>
+            </div>
+             <div class="layout-overlay layout-menu-toggle"></div>
         </div>
     </div>
 </template>

@@ -24,8 +24,14 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
+        $rules = ['required','min:2'];
+        if($this->id){
+            $rules[] = Rule::unique('products','id')->ignore($this->id);
+        }else{
+            $rules[] = 'unique:products,code';
+        }
         return [
-            'code' => ['required','min:3', Rule::unique('products','id')->ignore($this->id)],
+            'code' => $rules,
             'name' => 'required'
         ];
     }

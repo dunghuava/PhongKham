@@ -16,6 +16,9 @@ class AuthController extends Controller
         $response = [
             '_login' => Auth::check()
         ];
+        if(Auth::check()){
+            $response['auth'] = Auth::user();
+        }
         return $this->response($response);
     }
 

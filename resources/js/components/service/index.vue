@@ -31,7 +31,7 @@
                 </b-col>
             </b-row>
         </b-card>
-        <b-table ref="table" bordered class="bg-white"
+        <b-table ref="table" class="bg-white mt-4"
             :fields="fields"
             :items="dataProvider"
             :per-page="list.per_page"

@@ -56,10 +56,10 @@
                                 <i class="fa fa-arrow-left"></i> Hủy
                             </b-button>
                             <b-button v-if="action == 'update'" @click="updateItem" variant="success">
-                                <i class="fa fa-save"></i> Cập nhật
+                                <b-spinner v-if="isBusy" small label="Small Spinner"></b-spinner> Cập nhật
                             </b-button>
                             <b-button v-else @click="createItem" variant="success">
-                                <i class="fa fa-save"></i> Thêm mới
+                                <b-spinner v-if="isBusy" small label="Small Spinner"></b-spinner> Thêm mới
                             </b-button>
                         </b-form-group>
                     </b-card>

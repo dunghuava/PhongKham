@@ -21,7 +21,6 @@ window.NProgress = require('nprogress/nprogress');
 
 try {
     require('jquery-confirm');
-    require('../templates/js/script');
 } catch (error) {
     console.error('Loading Lib Error')
 }

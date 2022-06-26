@@ -7,76 +7,41 @@
 @import "~@fortawesome/fontawesome-free/css/fontawesome.min.css";
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
-@import "adminlte.css";
+@import "../vendors/core.css";
+@import "../vendors/theme-default.css";
 
 body{
     background: #f4f6f9;
-}
-
-.login-page{
-    background: #6c757d;
-    min-height: 100vh;
-    .login-box{
-        width: 768px;
-        min-height: 480px;
-        .image{
-            background: url(/images/bg-login.png) no-repeat;
-            background-size: cover;
-            height: 100%;
+    a,button{
+        text-decoration: none !important;
+        &.menu-link{
+            font-weight: 400;
         }
     }
-}
-.main-sidebar{
-    background: aliceblue;
-    .nav-pills .nav-link{
-        color: #000 !important;
+    .table{
+        thead th{
+            vertical-align: middle;
+            border-bottom: 2px solid #dee2e6;
+            padding: 19px;
+            background: #f0f8ff;
+            border-width: 1px;
+        }
+        tbody tr, td{
+            border-width: 1px;
+        }
     }
-    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-        color: #fff;
-        background-color: #b1b1b163;
+    .page-login{
+        height: 100vh;
+        background: #8592a3;
+        position: relative;
+        .page-center{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .login-box{
+            background-image: url('../images/bg-login.png');
+        }
     }
-}
-
-.table{
-    thead{
-        background: aliceblue;
-    }
-}
-
-.modal-content{
-    box-shadow: none;
-    border-radius: 0px;
-}
-
-.modal-backdrop{
-    opacity: 0.4;
-}
-
-.btn-light{
-    background: #dcdcdc;
-}
-
-.nav-sidebar > .nav-item .nav-icon{
-    font-size: 1rem !important;
-}
-
-.nav-sidebar .nav-treeview li {
-    border-left: 1px solid #dcdcdc;
-    margin-left: 28px;
-    padding-left: 4px;
-}
-
-.box-product-img{
-    height: 100%;
-    align-items: center;
-    display: flex;
-    border: 1px dashed;
-    justify-content: center;
-    border-radius: 10px;
-    font-size: 40px;
-}
-
-#nprogress .bar {
-    background: #dc3545;
-    height: 2px;
 }
