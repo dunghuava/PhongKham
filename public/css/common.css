@@ -31416,3 +31416,7 @@ body .page-login .login-box {
   background-image: url(/images/bg-login.png?1f14c135dd5c50abafecffd50906ab3b);
 }
 
+body .bg-menu-theme {
+  background: #f0f8ff !important;
+}
+

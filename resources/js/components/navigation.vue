@@ -23,12 +23,14 @@
                         <template #title>
                             <b-avatar></b-avatar> <small>{{ app.auth.name }}</small>
                         </template>
-                        <b-link class="item-menu d-block text-muted mb-2" :to="{name:'profile'}">
-                            <i class="fas fa-user"></i> Trang cá nhân
-                        </b-link>
-                        <b-link class="item-menu d-block text-muted mb-2" to="#" @click="logout">
-                            <i class="fas fa-power-off"></i> Đăng xuất
-                        </b-link >
+                        <b-list-group flush>
+                            <b-list-group-item :to="{name:'profile'}" class="border-0">
+                                <i class="fas fa-user"></i> Trang cá nhân
+                            </b-list-group-item>
+                            <b-list-group-item href="#"  @click="logout" class="border-0">
+                                <i class="fas fa-power-off"></i> Đăng xuất
+                            </b-list-group-item>
+                        </b-list-group>
                     </b-popover>
                 </li>
               </ul>

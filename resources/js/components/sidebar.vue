@@ -9,7 +9,7 @@
                 <li class="menu-item">
                     <b-link to="/" class="menu-link">
                         <i class="menu-icon fas fa-home"></i>
-                        <span>Dashboard</span>
+                        <span>Trang chủ</span>
                     </b-link>
                 </li>
                 <li class="menu-header small text-uppercase">
