@@ -24,8 +24,14 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
+        if($this->id){
+            return [
+                'code' => 'required|min:2|unique:products,code,'.$this->code,
+                'name' => 'required'
+            ];
+        }
         return [
-            'code' => ['required', 'min:2', Rule::unique('products', 'id')->ignore($this->id)],
+            'code' => 'required|min:2|unique:products,code',
             'name' => 'required'
         ];
     }

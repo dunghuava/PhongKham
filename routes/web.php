@@ -27,6 +27,7 @@ Route::group(['prefix' => 'setting'], function() {
     Route::post('update-profile',[SettingController::class,'updateProfile']);
 });
 
+require_once('api.php');
 
 // Layout
 Route::get('{any}',[LayoutController::class,'index'])->where('any','^(?!(api|web-tool)\/).*$')->middleware('user');

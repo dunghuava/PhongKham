@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\Http\Traits\Filterable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Passport\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use Notifiable,HasApiTokens;
+    use Notifiable, Filterable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password' ,'username',
+        'name', 'email', 'password' ,'username', 'status'
     ];
 
     /**
@@ -34,6 +35,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'status' => 'boolean',
     ];
+
+    protected $fillter = ['name','username'];
 }

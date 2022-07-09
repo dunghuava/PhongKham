@@ -84,6 +84,32 @@ const router = new VueRouter({
                         title:'Hệ thống'
                     }
                 },
+                {
+                    path:'/user/list',
+                    name:'user',
+                    component: require('../components/users/index').default,
+                    meta:{
+                        title:'Danh sách user'
+                    }
+                },
+                {
+                    path:'/user/create',
+                    name:'user.create',
+                    component: require('../components/users/edit').default,
+                    meta:{
+                        title:'Thêm user',
+                        action:'create'
+                    }
+                },
+                {
+                    path:'/user/:id/update',
+                    name:'user.update',
+                    component: require('../components/users/edit').default,
+                    meta:{
+                        title:'Cập nhật user',
+                        action:'update'
+                    }
+                }
             ],
         },
         {

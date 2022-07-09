@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
-use App\User;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 
@@ -13,27 +11,35 @@ class AuthController extends Controller
 {
 
     public function info(){
-        $response = [
+        $config = [
             '_login' => Auth::check()
         ];
         if(Auth::check()){
-            $response['auth'] = Auth::user();
+            $config['auth'] = Auth::user();
         }
-        return $this->response($response);
+        $config['options'] = [
+            'status' => config('option.status')
+        ];
+
+        return $this->response($config);
     }
 
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email',
-            'password' => 'required|string'
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
         if ($validator->fails()) {
             return $this->response($validator->errors(),401);
         }
 
-        $credentials = request(['email', 'password']);
+        $credentials = [
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+            'status' => true
+        ];
 
         if (!Auth::attempt($credentials)) {
             return $this->response([

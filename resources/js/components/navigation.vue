@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+        <nav class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
               <a class="nav-item nav-link px-0 me-xl-4">
                 <i class="bx bx-menu bx-sm"></i>
@@ -14,9 +14,6 @@
                 </div>
               </div>
               <ul class="navbar-nav flex-row align-items-center ms-auto">
-                <li class="nav-item lh-1 me-3">
-                  <span class="fas fa-bell"></span>
-                </li>
                 <li class="nav-item lh-1 me-3">
                     <b-avatar id="popover"></b-avatar>
                     <b-popover target="popover" triggers="hover focus" class="p-1">

@@ -82,7 +82,7 @@
                     </ul>
                 </li>
                 <li class="menu-item">
-                    <b-link href="#" class="menu-link menu-toggle">
+                    <b-link :to="{name:'user'}" class="menu-link">
                         <i class="menu-icon fas fa-users"></i>
                         <span>Tài khoản</span>
                     </b-link>
