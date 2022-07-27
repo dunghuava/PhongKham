@@ -9,15 +9,23 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import router from "./route";
 import app from "./app";
 import Vue from "vue";
+import VueInternationalization from "vue-i18n";
+import LocateMessages from "./vue-i18n-locales.generated";
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
-
+Vue.use(VueInternationalization);
 
 window.$ = require('jquery');
 window.axios = require('axios');
 window.toastr = require('toastr');
 window.NProgress = require('nprogress/nprogress');
+
+const i18n = new VueInternationalization({
+    locale: 'vi',
+    fallbackLocale: 'vi',
+    messages: LocateMessages
+});
 
 try {
     require('jquery-confirm');
@@ -128,8 +136,9 @@ axios.defaults.transformResponse.push(function (data) {
     });
     window.app = new Vue({
         el: '#app',
+        i18n,
         template:'<app></app>',
         components: {app},
-        router,
+        router
     })
 });

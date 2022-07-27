@@ -48,6 +48,12 @@ body{
         }
     }
     .bg-menu-theme{
-        background: #f0f8ff !important;
+        background: #28a745 !important;
+        .menu-link, .menu-header, .menu-text{
+            color: #fff !important;
+        }
+        .menu-inner > .menu-item.active:before {
+            background: #fff;
+        }
     }
 }

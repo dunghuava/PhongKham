@@ -77,11 +77,27 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    path:'/setting/system',
+                    path:'/setting',
                     name:'setting',
-                    component: require('../components/setting/system').default,
+                    component: require('../components/setting/index').default,
                     meta:{
                         title:'Hệ thống'
+                    }
+                },
+                {
+                    path:'/role',
+                    name:'role',
+                    component: require('../components/setting/role').default,
+                    meta:{
+                        title:'Role'
+                    }
+                },
+                {
+                    path:'/permisson',
+                    name:'permission',
+                    component: require('../components/setting/permission').default,
+                    meta:{
+                        title:'Permission'
                     }
                 },
                 {

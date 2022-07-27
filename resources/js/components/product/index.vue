@@ -4,7 +4,7 @@
         <b-card>
             <b-row>
                 <b-col cols="12" class="text-right">
-                    <b-link size="sm" :to="{name:'product.create'}"><i class="fa fa-plus"></i> Thêm sản phẩm</b-link>
+                    <b-link size="sm" :to="{name:'product.create'}"><i class="fa fa-plus"></i> {{$t('button.create')}}</b-link>
                 </b-col>
                 <b-col cols="3">
                     <b-form-group
@@ -31,7 +31,7 @@
                     <b-form-group
                         label="Thao tác:"
                         >
-                        <b-button @click="onFillter" block variant="danger">
+                        <b-button @click="onFillter" block variant="secondary">
                             <i class="fa fa-search"></i> Tìm kiếm
                         </b-button>
                     </b-form-group>

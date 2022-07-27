@@ -13,3 +13,5 @@ yarn-error.log
 public/css/common.css
 public/js/common.js
 public/mix-manifest.json
+composer.lock
+resources/js/vue-i18n-locales.generated.js

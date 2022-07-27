@@ -24,7 +24,7 @@
                     <b-form-group
                         label="Thao tác:"
                         >
-                        <b-button @click="onFillter" block variant="danger">
+                        <b-button @click="onFillter" block variant="secondary">
                             <i class="fa fa-search"></i> Tìm kiếm
                         </b-button>
                     </b-form-group>

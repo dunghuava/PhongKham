@@ -30,6 +30,7 @@
         "jquery-confirm": "^3.3.4",
         "nprogress": "^0.2.0",
         "sweetalert2": "^11.4.0",
-        "toastr": "^2.1.4"
+        "toastr": "^2.1.4",
+        "vue-i18n": "^8.27.2"
     }
 }

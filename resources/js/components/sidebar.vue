@@ -1,9 +1,9 @@
 <template>
     <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" data-bg-class="bg-menu-theme">
           <div class="app-brand demo">
-            <a href="/" class="app-brand-link">
+            <b-link to="/" class="app-brand-link">
               <span class="app-brand-text demo menu-text fw-bolder ms-2">Phong Kham</span>
-            </a>
+            </b-link>
           </div>
           <ul class="menu-inner py-1 ps ps--active-y">
                 <li class="menu-item">
@@ -55,7 +55,7 @@
                     </b-link>
                 </li>
                 <li class="menu-item">
-                    <b-link href="#" class="menu-link menu-toggle">
+                    <b-link href="#" class="menu-link">
                         <i class="menu-icon fas fa-calendar-alt"></i>
                         <span>Lịch tái khám</span>
                     </b-link>
@@ -76,7 +76,17 @@
                         </li>
                         <li class="menu-item">
                             <b-link :to="{name:'profile'}" class="menu-link">
-                                    <span>Thông tin</span>
+                                    <span>Profile</span>
+                            </b-link>
+                        </li>
+                        <li class="menu-item">
+                            <b-link :to="{name:'role'}" class="menu-link">
+                                    <span>Role</span>
+                            </b-link>
+                        </li>
+                        <li class="menu-item">
+                            <b-link :to="{name:'permission'}" class="menu-link">
+                                    <span>Permission</span>
                             </b-link>
                         </li>
                     </ul>
