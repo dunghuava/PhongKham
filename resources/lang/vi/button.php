@@ -5,5 +5,12 @@ return [
     'delete' => 'Xóa',
     'edit' => 'Sửa',
     'back' => 'Quay lại',
-    'cancel' => 'Hủy'
+    'cancel' => 'Hủy',
+    'action' => 'Thao tác',
+    'option' => 'Tùy chọn',
+    'exit' => 'Thoát',
+    'search' => 'Tìm kiếm',
+    'add' => 'Thêm',
+    'save' => 'Lưu',
+    'accept' => 'Đồng ý'
 ];

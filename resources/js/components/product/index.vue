@@ -38,34 +38,36 @@
                 </b-col>
             </b-row>
         </b-card>
-        <b-table ref="table" class="bg-white mt-4"
-            :fields="fields"
-            :items="dataProvider"
-            :per-page="list.per_page"
-            :current-page="list.current_page"
-            responsive show-empty>
-            <template #cell(id)="data">
-                {{ data.index + 1 + ((list.current_page - 1) * list.per_page)}}
-            </template>
-            <template #cell(name)="data">
-                <div>{{ data.item.name }}</div>
-                <code v-if="data.item.code">MÃ SP: {{ data.item.code }}</code>
-            </template>
-            <template #cell(status)="data">
-                <b-form-checkbox switch v-model="data.item.status"></b-form-checkbox>
-            </template>
-            <template #cell(options)="data">
-                <b-dropdown variant="link" no-caret>
-                    <template #button-content>
-                        &#x1f50d;<span class="sr-only">Search</span>
-                    </template>
-                    <b-dropdown-item :to="{ name:'product.update', params:{ id:data.item.id }}" class="text-center">Chỉnh sửa</b-dropdown-item>
-                    <b-dropdown-item @click="deleteItem(data.item.id)" class="text-center">
-                        <span class="text-danger">Xóa</span>
-                    </b-dropdown-item>
-                </b-dropdown>
-            </template>
-        </b-table>
+        <b-card class="mt-4">
+            <b-table ref="table" class="bg-white"
+                :fields="fields"
+                :items="dataProvider"
+                :per-page="list.per_page"
+                :current-page="list.current_page"
+                responsive show-empty>
+                <template #cell(id)="data">
+                    {{ data.index + 1 + ((list.current_page - 1) * list.per_page)}}
+                </template>
+                <template #cell(name)="data">
+                    <div>{{ data.item.name }}</div>
+                    <code v-if="data.item.code">MÃ SP: {{ data.item.code }}</code>
+                </template>
+                <template #cell(status)="data">
+                    <b-form-checkbox switch v-model="data.item.status"></b-form-checkbox>
+                </template>
+                <template #cell(options)="data">
+                    <b-dropdown variant="link" no-caret>
+                        <template #button-content>
+                            &#x1f50d;<span class="sr-only">Search</span>
+                        </template>
+                        <b-dropdown-item :to="{ name:'product.update', params:{ id:data.item.id }}" class="text-center">Chỉnh sửa</b-dropdown-item>
+                        <b-dropdown-item @click="deleteItem(data.item.id)" class="text-center">
+                            <span class="text-danger">Xóa</span>
+                        </b-dropdown-item>
+                    </b-dropdown>
+                </template>
+            </b-table>
+        </b-card>
         <b-pagination
             pills align="center" v-model="list.current_page"
             :per-page="list.per_page"

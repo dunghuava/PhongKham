@@ -1,102 +1,227 @@
 <template>
     <div>
-        <b-row class="justify-content-center">
-            <b-col cols="12">
-                <b-card>
-                    <b-form @submit="saveProfile">
-                        <div class="text-center mb-3">
-                            <b-avatar size="125px"></b-avatar>
-                        </div>
-                        <b-form-group
-                            label-cols-sm="3"
-                            label-align-sm="right"
-                            :label="$t('profile.fullname')"
-                            :invalid-feedback="invalidFeedback('name')"
+        <b-breadcrumb :items="breadcrumb"></b-breadcrumb>
+        <b-card>
+            <b-row>
+                <b-col cols="12" class="text-right">
+                    <b-link size="sm" :to="{name:'product.create'}"><i class="fa fa-plus"></i> {{$t('button.create')}}</b-link>
+                </b-col>
+                <b-col cols="3">
+                    <b-form-group
+                        label="Mã sản phẩm:"
                         >
-                            <b-form-input v-model="frmData.name" :state="state('name')" trim></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                            label-cols-sm="3"
-                            label-align-sm="right"
-                            :label="$t('profile.username')"
-                            :invalid-feedback="invalidFeedback('username')"
+                        <b-form-input v-model="filter.code"></b-form-input>
+                    </b-form-group>
+                </b-col>
+                <b-col cols="3">
+                    <b-form-group
+                        label="Tên sản phẩm:"
                         >
-                            <b-form-input disabled v-model="frmData.username" :state="state('username')" trim></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                            label-cols-sm="3"
-                            label-align-sm="right"
-                            :label="$t('profile.email')"
-                            :invalid-feedback="invalidFeedback('email')"
+                        <b-form-input v-model="filter.name"></b-form-input>
+                    </b-form-group>
+                </b-col>
+                <b-col cols="3">
+                    <b-form-group
+                        label="Trạng thái:"
                         >
-                            <b-form-input v-model="frmData.email" :state="state('email')" trim></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                            label-cols-sm="3"
-                            label-align-sm="right"
-                            :label="$t('profile.password')"
-                            :description="$t('profile.password_description')"
-                            :invalid-feedback="invalidFeedback('password')"
+                        <b-form-select v-model="filter.status" :options="options.status"></b-form-select>
+                    </b-form-group>
+                </b-col>
+                <b-col cols="3">
+                    <b-form-group
+                        label="Thao tác:"
                         >
-                            <b-form-input type="password" v-model="frmData.password" :state="state('password')" trim></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                            label-cols-sm="3"
-                            label-align-sm="right"
-                            :label="$t('profile.password_confirmation')"
-                            :description="$t('profile.password_description')"
-                            :invalid-feedback="invalidFeedback('repassword')"
-                        >
-                            <b-form-input type="password" v-model="frmData.repassword" :state="state('repassword')" trim></b-form-input>
-                        </b-form-group>
-                        <b-form-group
-                            label-cols-sm="3"
-                            label-align-sm="right">
-                            <b-button to="/" variant="danger"><i class="fa fa-arrow-left"></i> {{$t('button.back')}}</b-button>
-                            <b-button type="submit" variant="success">
-                                <b-spinner v-if="isBusy" small label="Small Spinner"></b-spinner> {{$t('button.update')}}
-                            </b-button>
-                        </b-form-group>
-                    </b-form>
-                </b-card>
-            </b-col>
-        </b-row>
+                        <b-button @click="onFillter" block variant="secondary">
+                            <i class="fa fa-search"></i> Tìm kiếm
+                        </b-button>
+                    </b-form-group>
+                </b-col>
+            </b-row>
+        </b-card>
+        <b-table ref="table" class="bg-white mt-4"
+            :fields="fields"
+            :items="dataProvider"
+            :per-page="list.per_page"
+            :current-page="list.current_page"
+            responsive show-empty>
+            <template #cell(id)="data">
+                {{ data.index + 1 + ((list.current_page - 1) * list.per_page)}}
+            </template>
+            <template #cell(name)="data">
+                <div>{{ data.item.name }}</div>
+                <code v-if="data.item.code">MÃ SP: {{ data.item.code }}</code>
+            </template>
+            <template #cell(status)="data">
+                <b-form-checkbox switch v-model="data.item.status"></b-form-checkbox>
+            </template>
+            <template #cell(options)="data">
+                <b-dropdown variant="link" no-caret>
+                    <template #button-content>
+                        &#x1f50d;<span class="sr-only">Search</span>
+                    </template>
+                    <b-dropdown-item :to="{ name:'product.update', params:{ id:data.item.id }}" class="text-center">Chỉnh sửa</b-dropdown-item>
+                    <b-dropdown-item @click="deleteItem(data.item.id)" class="text-center">
+                        <span class="text-danger">Xóa</span>
+                    </b-dropdown-item>
+                </b-dropdown>
+            </template>
+        </b-table>
+        <b-pagination
+            pills align="center" v-model="list.current_page"
+            :per-page="list.per_page"
+            :total-rows="list.total"
+            v-if="list.last_page > 1"
+        ></b-pagination>
     </div>
 </template>
 
 <script>
+const API_PRODUCT = '/api/product';
 export default {
-    name:'Profile',
+    name:'Product',
     data(){
         return {
             isBusy:false,
-            frmData:{
-                name:null,
-                username:null,
-                email:null,
-                password:null,
-                repassword:null
+            options:{
+                status:[
+                    {value:1,text:'Bật'},
+                    {value:0,text:'Tắt'}
+                ]
             },
+            filter:{
+                code:null,
+                name:null,
+                status:null,
+                page:1
+            },
+            list:{
+                current_page: 1,
+                data: {},
+                last_page: 1,
+                prev_page_url: null,
+                next_page_url: null,
+                per_page: 15,
+                total: 0,
+            },
+            form:{},
+            fields: [
+                {
+                    key: 'id',
+                    label: '#',
+                    tdClass: 'text-center align-middle',
+                    thStyle: {
+                        width: '5%',
+                        textAlign: 'center',
+                        verticalAlign: 'middle'
+                    },
+                }, {
+                    key: 'name',
+                    label: 'Tên sản phẩm',
+                    tdClass: 'text-left align-middle',
+                    thStyle: {
+                        textAlign: 'left',
+                        verticalAlign: 'middle'
+                    },
+                },
+                {
+                    key: 'image',
+                    label: 'Hình ảnh',
+                    tdClass: 'text-left align-middle',
+                    thStyle: {
+                        width: '10%',
+                        textAlign: 'center',
+                        verticalAlign: 'middle'
+                    },
+                }
+                , {
+                    key: 'price',
+                    label: 'Giá bán',
+                    tdClass: 'text-right align-middle',
+                    thStyle: {
+                        width: '10%',
+                        textAlign: 'center',
+                        verticalAlign: 'middle'
+                    },
+                    formatter:function(value){
+                        return Number(value).toLocaleString() + ' đ';
+                    }
+                },
+                {
+                    key: 'status',
+                    label: 'Hiển thị',
+                    tdClass: 'text-center align-middle',
+                    thStyle: {
+                        width: '8%',
+                        textAlign: 'center',
+                        verticalAlign: 'middle'
+                    },
+                },
+                {
+                    key: 'updated_at',
+                    label: 'Cập nhật',
+                    tdClass: 'text-center align-middle',
+                    thStyle: {
+                        width: '15%',
+                        textAlign: 'center',
+                        verticalAlign: 'middle'
+                    },
+                },
+                {
+                    key: 'options',
+                    label: 'Thao tác',
+                    tdClass: 'text-center align-middle',
+                    thStyle: {
+                        width: '8%',
+                        textAlign: 'center',
+                        verticalAlign: 'middle'
+                    },
+                }
+            ],
             errors:{}
         }
     },
     mounted() {
         let vm = this;
-        axios.post('/setting/profile').then(function (response){
-            vm.frmData = response.data;
+        vm.breadcrumb.push({
+            text:'Sản phẩm',
+            href:'#'
         });
     },
     methods:{
-        saveProfile:function (e){
-            e.preventDefault();
+        onFillter:function(){
             let vm = this;
-            vm.errors = {};
-            vm.isBusy = true;
-            axios.post('/setting/update-profile',vm.frmData).then(function (response){
-                vm.isBusy = false;
-            }).catch(function (errors){
-                vm.isBusy = false;
-                vm.errors = errors.response.data;
+            vm.$refs.table.refresh();
+        },
+        dataProvider:function(ctx){
+            let vm = this;
+            vm.filter.page = ctx.currentPage;
+            return axios.get(API_PRODUCT,{params: vm.filter}).then(function(response){
+                vm.list = response.data;
+                return response.data.data || [];
+            });
+        },
+        deleteItem:function(id){
+            let vm = this;
+            $.confirm({
+                title: 'Thông báo',
+                content: 'Bạn có muốn xóa sản phẩm này ?',
+                icon: 'fas fa-exclamation-circle',
+                backgroundDismiss: true,
+                animateFromElement: false,
+                buttons: {
+                    tryAgain: {
+                        text: 'Đồng ý',
+                        btnClass: 'btn-red',
+                        action: function(){
+                            axios.delete(API_PRODUCT+'/'+id).then(function (response){
+                                vm.$refs.table.refresh();
+                            });
+                        }
+                    },
+                    cancel: {
+                        text: 'Hủy bỏ'
+                    }
+                }
             });
         },
         state: function (field) {

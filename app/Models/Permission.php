@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class Permission extends Model
 {
-    protected $table = 'permissons';
+    use HasRoles;
 
-    public function role()
-    {
-        return $this->hasOne(Role::class);
-    }
+    protected $table = 'permissions';
 }

@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasPermissions;
 
 class Role extends Model
 {
+    use HasPermissions;
     protected $table = 'roles';
 
-    public function permissions()
-    {
-        return $this->hasMany(Permission::class);
-    }
+    protected $fillable = ['name', 'guard_name'];
 }
