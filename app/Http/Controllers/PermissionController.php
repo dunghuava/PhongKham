@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PermissionRequest;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
@@ -13,17 +15,8 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $paginate = Permission::orderBy('id','desc')->paginate();
+        return $this->response($paginate);
     }
 
     /**
@@ -32,9 +25,16 @@ class PermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PermissionRequest $request)
     {
-        //
+        $request->merge([
+            'guard_name' => preg_replace('/[^a-zA-Z_]/','',$request->guard_name)
+        ]);
+        Permission::create($request->all());
+        return $this->response([
+            'status' => 'success',
+            'message' => trans('action.create.success')
+        ]);
     }
 
     /**
@@ -43,20 +43,15 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Permission $permission)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        if(!$permission){
+            return $this->response([
+                'status' => 'error',
+                'message' => trans('action.get.error')
+            ],404);
+        }
+        return $this->response($permission);
     }
 
     /**
@@ -66,9 +61,22 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PermissionRequest $request, Permission $permission)
     {
-        //
+        $request->merge([
+            'guard_name' => preg_replace('/[^a-zA-Z_]/','',$request->guard_name)
+        ]);
+        if($permission){
+            $permission->update($request->all());
+            return $this->response([
+                'status' => 'success',
+                'message' => trans('action.update.success')
+            ]);
+        }
+        return $this->response([
+            'status' => 'error',
+            'message' => trans('action.update.error')
+        ],404);
     }
 
     /**
@@ -77,8 +85,13 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Permission $permission)
     {
-        //
+        if($permission->delete()){
+            return $this->response([
+                'status' => 'success',
+                'message' => trans('action.delete.success')
+            ]);
+        }
     }
 }

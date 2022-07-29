@@ -58,11 +58,11 @@
             </b-table>
         </b-card>
         <b-pagination
-            pills align="center" v-model="list.current_page"
+            class="clearfix mb-0 mt-4" pills align="center" v-model="list.current_page"
             :per-page="list.per_page"
             :total-rows="list.total"
-            v-if="list.last_page > 1"
-        ></b-pagination>
+            v-if="list.last_page > 1">
+        </b-pagination>
     </div>
 </template>
 

@@ -7,4 +7,5 @@ Route::group(['prefix' => 'api'], function(){
     Route::resource('service','ServiceController')->except(['create','edit']);
     Route::resource('user','UserController')->except(['create','edit']);
     Route::resource('role','RoleController')->except(['create','edit']);
+    Route::resource('permission','PermissionController')->except(['create','edit']);
 });

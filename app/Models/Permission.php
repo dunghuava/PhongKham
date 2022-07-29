@@ -10,4 +10,6 @@ class Permission extends Model
     use HasRoles;
 
     protected $table = 'permissions';
+
+    protected $fillable = ['name', 'guard_name'];
 }

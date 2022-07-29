@@ -15,6 +15,7 @@ import LocateMessages from "./vue-i18n-locales.generated";
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueInternationalization);
+Vue.component('vue-select', require('vue-select').default);
 
 window.$ = require('jquery');
 window.axios = require('axios');

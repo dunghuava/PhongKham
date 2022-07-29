@@ -9,7 +9,9 @@
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
 @import "../vendors/core.css";
 @import "../vendors/theme-default.css";
-
+@import "~vue-select/dist/vue-select.css";
+@import url("http://cdn.bootcss.com/select2/4.0.0/css/select2.css");
+@import url("https://select2.github.io/select2-bootstrap-theme/css/select2-bootstrap.css");
 body{
     background: #f4f6f9;
     a,button{
@@ -18,16 +20,16 @@ body{
             font-weight: 400;
         }
     }
+    .vs__selected-options{
+        height: 31px;
+    }
+    .table-responsive{
+        margin-bottom: 0px !important;
+    }
     .table{
         thead th{
             vertical-align: middle;
-            border-bottom: 2px solid #dee2e6;
             padding: 19px;
-            background: #f0f8ff;
-            border-width: 1px;
-        }
-        tbody tr, td{
-            border-width: 1px;
         }
     }
     .page-login{

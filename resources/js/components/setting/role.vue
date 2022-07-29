@@ -8,7 +8,7 @@
                         :label="$t('role.name')"
                         :invalid-feedback="invalidFeedback('name')"
                         >
-                        <b-form-input :state="state('name')" v-model="form.name"></b-form-input>
+                        <b-form-input :state="state('name')" v-model="frmData.name"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="3">
@@ -16,7 +16,7 @@
                         :label="$t('role.guard_name')"
                         :invalid-feedback="invalidFeedback('guard_name')"
                         >
-                        <b-form-input :state="state('guard_name')" :formatter="formatGuarName" v-model="form.guard_name"></b-form-input>
+                        <b-form-input :state="state('guard_name')" :formatter="formatGuarName" v-model="frmData.guard_name"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="3">
@@ -24,7 +24,10 @@
                         :label="$t('role.permission')"
                         :invalid-feedback="invalidFeedback('permissions')"
                         >
-                        <b-form-tags :state="state('permissions')" v-model="form.permissions"></b-form-tags>
+                        <vue-select class="vue-select2"
+                            :options="frmData.permissions"
+                            :searchable="true">
+                        </vue-select>
                     </b-form-group>
                 </b-col>
                 <b-col cols="3">
@@ -89,7 +92,8 @@ export default {
                 per_page: 15,
                 total: 0,
             },
-            form:{
+            frmData:{
+                id:null,
                 name:null,
                 guard_name:null,
                 permissions:[]
@@ -173,10 +177,10 @@ export default {
             let vm = this;
             vm.errors = {};
             vm.isBusy = true;
-            axios.post(API_ROLE,vm.form).then(function (response){
+            axios.post(API_ROLE,vm.frmData).then(function (response){
                 vm.isBusy = false;
                 vm.$refs.table.refresh();
-                vm.form = {};
+                vm.frmData = {};
             }).catch(function(errors){
                 vm.isBusy = false;
                 vm.errors = errors.response.data.errors;
