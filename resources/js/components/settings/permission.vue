@@ -3,29 +3,31 @@
         <b-breadcrumb :items="breadcrumb"></b-breadcrumb>
         <b-card>
             <b-row>
-                <b-col cols="12" class="text-right">
-                    <b-link size="sm" :to="{name:'service.create'}"><i class="fa fa-plus"></i> {{$t('button.create')}}</b-link>
-                </b-col>
                 <b-col cols="6">
                     <b-form-group
-                        label="Tên dịch vụ:"
+                        :label="$t('permission.name')"
+                        :invalid-feedback="invalidFeedback('name')"
                         >
-                        <b-form-input v-model="filter.name"></b-form-input>
+                        <b-form-input :state="state('name')" v-model="frmData.name"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="3">
                     <b-form-group
-                        label="Trạng thái:"
+                        :label="$t('permission.guard_name')"
+                        :invalid-feedback="invalidFeedback('guard_name')"
                         >
-                        <b-form-select v-model="filter.status" :options="options.status"></b-form-select>
+                        <b-form-input :state="state('guard_name')" :formatter="formatGuarName" v-model="frmData.guard_name"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col cols="3">
                     <b-form-group
-                        label="Thao tác:"
+                        :label="$t('button.action')"
                         >
-                        <b-button @click="onFillter" block variant="secondary">
-                            <i class="fa fa-search"></i> Tìm kiếm
+                        <b-button v-if="frmData.id" @click="updateItem(frmData.id)" block variant="secondary">
+                            <i class="fa fa-save"></i> {{ $t('button.update') }}
+                        </b-button>
+                        <b-button v-else @click="createItem" block variant="secondary">
+                            <i class="fa fa-save"></i> {{ $t('button.save') }}
                         </b-button>
                     </b-form-group>
                 </b-col>
@@ -41,15 +43,12 @@
                 <template #cell(id)="data">
                     {{ data.index + 1 + ((list.current_page - 1) * list.per_page)}}
                 </template>
-                <template #cell(status)="data">
-                    <b-form-checkbox switch v-model="data.item.status"></b-form-checkbox>
-                </template>
                 <template #cell(options)="data">
                     <b-dropdown variant="link" no-caret>
                         <template #button-content>
                             &#x1f50d;<span class="sr-only">Search</span>
                         </template>
-                        <b-dropdown-item :to="{ name:'service.update', params:{ id:data.item.id }}" class="text-center">Chỉnh sửa</b-dropdown-item>
+                        <b-dropdown-item @click="getItem(data.item)" class="text-center">Chỉnh sửa</b-dropdown-item>
                         <b-dropdown-item @click="deleteItem(data.item.id)" class="text-center">
                             <span class="text-danger">Xóa</span>
                         </b-dropdown-item>
@@ -58,31 +57,24 @@
             </b-table>
         </b-card>
         <b-pagination
-            class="clearfix mb-0 mt-4" pills align="center" v-model="list.current_page"
+            pills align="center" v-model="list.current_page"
             :per-page="list.per_page"
             :total-rows="list.total"
-            v-if="list.last_page > 1">
-        </b-pagination>
+            v-if="list.last_page > 1"
+        ></b-pagination>
     </div>
 </template>
 
 <script>
-const API_PRODUCT = '/api/service';
+const API_PERMISSION = '/api/permission';
+import mixins from '../mixins.vue';
 export default {
-    name:'Service',
+    mixins:[mixins],
+    name:'Permission',
     data(){
         return {
             isBusy:false,
-            options:{
-                status:[
-                    {value:1,text:'Bật'},
-                    {value:0,text:'Tắt'}
-                ]
-            },
             filter:{
-                code:null,
-                name:null,
-                status:null,
                 page:1
             },
             list:{
@@ -94,7 +86,11 @@ export default {
                 per_page: 15,
                 total: 0,
             },
-            form:{},
+            frmData:{
+                id:null,
+                name:null,
+                guard_name:null
+            },
             fields: [
                 {
                     key: 'id',
@@ -107,39 +103,26 @@ export default {
                     },
                 }, {
                     key: 'name',
-                    label: 'Tên dịch vụ',
+                    label: this.$t('permission.name'),
                     tdClass: 'text-left align-middle',
                     thStyle: {
                         textAlign: 'left',
                         verticalAlign: 'middle'
                     },
-                }
-                , {
-                    key: 'price',
-                    label: 'Đơn giá',
-                    tdClass: 'text-right align-middle',
-                    thStyle: {
-                        width: '10%',
-                        textAlign: 'center',
-                        verticalAlign: 'middle'
-                    },
-                    formatter:function(value){
-                        return Number(value).toLocaleString() + ' đ';
-                    }
                 },
                 {
-                    key: 'status',
-                    label: 'Hiển thị',
-                    tdClass: 'text-center align-middle',
+                    key: 'guard_name',
+                    label: this.$t('permission.guard_name'),
+                    tdClass: 'text-left align-middle',
                     thStyle: {
-                        width: '8%',
+                        width: '20%',
                         textAlign: 'center',
                         verticalAlign: 'middle'
                     },
                 },
                 {
                     key: 'updated_at',
-                    label: 'Cập nhật',
+                    label: this.$t('button.update'),
                     tdClass: 'text-center align-middle',
                     thStyle: {
                         width: '15%',
@@ -149,7 +132,7 @@ export default {
                 },
                 {
                     key: 'options',
-                    label: 'Thao tác',
+                    label: this.$t('button.action'),
                     tdClass: 'text-center align-middle',
                     thStyle: {
                         width: '8%',
@@ -164,7 +147,7 @@ export default {
     mounted() {
         let vm = this;
         vm.breadcrumb.push({
-            text:'Dịch vụ',
+            text:'Permission',
             href:'#'
         });
     },
@@ -173,10 +156,43 @@ export default {
             let vm = this;
             vm.$refs.table.refresh();
         },
+        getItem:function(item){
+            let vm = this;
+            vm.frmData = {...item};
+        },
+        createItem:function(){
+            let vm = this;
+            vm.errors = {};
+            vm.isBusy = true;
+            axios.post(API_PERMISSION,vm.frmData).then(function (response){
+                vm.isBusy = false;
+                vm.$refs.table.refresh();
+                vm.frmData = {};
+            }).catch(function(errors){
+                vm.isBusy = false;
+                vm.errors = errors.response.data.errors;
+            });
+        },
+        updateItem:function(id){
+            let vm = this;
+            vm.errors = {};
+            vm.isBusy = true;
+            axios.put(API_PERMISSION +'/'+ id,vm.frmData).then(function (response){
+                vm.isBusy = false;
+                vm.$refs.table.refresh();
+                vm.frmData = {};
+            }).catch(function(errors){
+                vm.isBusy = false;
+                vm.errors = errors.response.data.errors;
+            });
+        },
+        formatGuarName:function(value){
+            return value.replace(/[^a-z-A-Z_]/,'').toLowerCase();
+        },
         dataProvider:function(ctx){
             let vm = this;
             vm.filter.page = ctx.currentPage;
-            return axios.get(API_PRODUCT,{params: vm.filter}).then(function(response){
+            return axios.get(API_PERMISSION,{params: vm.filter}).then(function(response){
                 vm.list = response.data;
                 return response.data.data || [];
             });
@@ -185,43 +201,25 @@ export default {
             let vm = this;
             $.confirm({
                 title: 'Thông báo',
-                content: 'Bạn có muốn xóa dịch vụ này ?',
+                content: 'Bạn có muốn xóa mục này ?',
                 icon: 'fas fa-exclamation-circle',
                 backgroundDismiss: true,
                 animateFromElement: false,
                 buttons: {
                     tryAgain: {
-                        text: 'Đồng ý',
+                        text: this.$t('button.accept'),
                         btnClass: 'btn-red',
                         action: function(){
-                            axios.delete(API_PRODUCT+'/'+id).then(function (response){
+                            axios.delete(API_PERMISSION+'/'+id).then(function (response){
                                 vm.$refs.table.refresh();
                             });
                         }
                     },
                     cancel: {
-                        text: 'Hủy bỏ'
+                        text: this.$t('button.cancel')
                     }
                 }
             });
-        },
-        state: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            return false;
-        },
-        invalidFeedback: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            let errHtml = '';
-            errors[field].forEach(function (error) {
-                errHtml += error;
-            });
-            return errHtml;
         }
     }
 }

@@ -4,18 +4,11 @@
         <b-card>
             <b-row>
                 <b-col cols="12" class="text-right">
-                    <b-link size="sm" :to="{name:'product.create'}"><i class="fa fa-plus"></i> {{$t('button.create')}}</b-link>
+                    <b-link size="sm" :to="{name:'service.create'}"><i class="fa fa-plus"></i> {{$t('button.create')}}</b-link>
                 </b-col>
-                <b-col cols="3">
+                <b-col cols="6">
                     <b-form-group
-                        label="Mã sản phẩm:"
-                        >
-                        <b-form-input v-model="filter.code"></b-form-input>
-                    </b-form-group>
-                </b-col>
-                <b-col cols="3">
-                    <b-form-group
-                        label="Tên sản phẩm:"
+                        label="Tên dịch vụ:"
                         >
                         <b-form-input v-model="filter.name"></b-form-input>
                     </b-form-group>
@@ -48,10 +41,6 @@
                 <template #cell(id)="data">
                     {{ data.index + 1 + ((list.current_page - 1) * list.per_page)}}
                 </template>
-                <template #cell(name)="data">
-                    <div>{{ data.item.name }}</div>
-                    <code v-if="data.item.code">MÃ SP: {{ data.item.code }}</code>
-                </template>
                 <template #cell(status)="data">
                     <b-form-checkbox switch v-model="data.item.status"></b-form-checkbox>
                 </template>
@@ -60,7 +49,7 @@
                         <template #button-content>
                             &#x1f50d;<span class="sr-only">Search</span>
                         </template>
-                        <b-dropdown-item :to="{ name:'product.update', params:{ id:data.item.id }}" class="text-center">Chỉnh sửa</b-dropdown-item>
+                        <b-dropdown-item :to="{ name:'service.update', params:{ id:data.item.id }}" class="text-center">Chỉnh sửa</b-dropdown-item>
                         <b-dropdown-item @click="deleteItem(data.item.id)" class="text-center">
                             <span class="text-danger">Xóa</span>
                         </b-dropdown-item>
@@ -69,18 +58,20 @@
             </b-table>
         </b-card>
         <b-pagination
-            pills align="center" v-model="list.current_page"
+            class="clearfix mb-0 mt-4" pills align="center" v-model="list.current_page"
             :per-page="list.per_page"
             :total-rows="list.total"
-            v-if="list.last_page > 1"
-        ></b-pagination>
+            v-if="list.last_page > 1">
+        </b-pagination>
     </div>
 </template>
 
 <script>
-const API_PRODUCT = '/api/product';
+const API_SERVICE = '/api/service';
+import mixins from '../mixins.vue';
 export default {
-    name:'Product',
+    mixins:[mixins],
+    name:'Service',
     data(){
         return {
             isBusy:false,
@@ -118,26 +109,16 @@ export default {
                     },
                 }, {
                     key: 'name',
-                    label: 'Tên sản phẩm',
+                    label: 'Tên dịch vụ',
                     tdClass: 'text-left align-middle',
                     thStyle: {
                         textAlign: 'left',
                         verticalAlign: 'middle'
                     },
-                },
-                {
-                    key: 'image',
-                    label: 'Hình ảnh',
-                    tdClass: 'text-left align-middle',
-                    thStyle: {
-                        width: '10%',
-                        textAlign: 'center',
-                        verticalAlign: 'middle'
-                    },
                 }
                 , {
                     key: 'price',
-                    label: 'Giá bán',
+                    label: 'Đơn giá',
                     tdClass: 'text-right align-middle',
                     thStyle: {
                         width: '10%',
@@ -185,7 +166,7 @@ export default {
     mounted() {
         let vm = this;
         vm.breadcrumb.push({
-            text:'Sản phẩm',
+            text:'Dịch vụ',
             href:'#'
         });
     },
@@ -197,7 +178,7 @@ export default {
         dataProvider:function(ctx){
             let vm = this;
             vm.filter.page = ctx.currentPage;
-            return axios.get(API_PRODUCT,{params: vm.filter}).then(function(response){
+            return axios.get(API_SERVICE,{params: vm.filter}).then(function(response){
                 vm.list = response.data;
                 return response.data.data || [];
             });
@@ -206,7 +187,7 @@ export default {
             let vm = this;
             $.confirm({
                 title: 'Thông báo',
-                content: 'Bạn có muốn xóa sản phẩm này ?',
+                content: 'Bạn có muốn xóa dịch vụ này ?',
                 icon: 'fas fa-exclamation-circle',
                 backgroundDismiss: true,
                 animateFromElement: false,
@@ -215,7 +196,7 @@ export default {
                         text: 'Đồng ý',
                         btnClass: 'btn-red',
                         action: function(){
-                            axios.delete(API_PRODUCT+'/'+id).then(function (response){
+                            axios.delete(API_SERVICE+'/'+id).then(function (response){
                                 vm.$refs.table.refresh();
                             });
                         }
@@ -225,24 +206,6 @@ export default {
                     }
                 }
             });
-        },
-        state: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            return false;
-        },
-        invalidFeedback: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            let errHtml = '';
-            errors[field].forEach(function (error) {
-                errHtml += error;
-            });
-            return errHtml;
         }
     }
 }

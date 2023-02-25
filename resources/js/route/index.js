@@ -19,7 +19,7 @@ const router = new VueRouter({
                 {
                     path:'/service/list',
                     name:'service',
-                    component: require('../components/service/index').default,
+                    component: require('../components/services/index').default,
                     meta:{
                         title:'Dịch vụ'
                     }
@@ -27,7 +27,7 @@ const router = new VueRouter({
                 {
                     path:'/service/create',
                     name:'service.create',
-                    component: require('../components/service/edit').default,
+                    component: require('../components/services/edit').default,
                     meta:{
                         title:'Dịch vụ',
                         action: 'create'
@@ -36,7 +36,7 @@ const router = new VueRouter({
                 {
                     path:'/service/:id/update',
                     name:'service.update',
-                    component: require('../components/service/edit').default,
+                    component: require('../components/services/edit').default,
                     meta:{
                         title:'Dịch vụ',
                         action: 'update'
@@ -45,7 +45,7 @@ const router = new VueRouter({
                 {
                     path:'/product/list',
                     name:'product',
-                    component: require('../components/product/index').default,
+                    component: require('../components/products/index').default,
                     meta:{
                         title:'Sản phẩm'
                     }
@@ -53,7 +53,7 @@ const router = new VueRouter({
                 {
                     path:'/product/create',
                     name:'product.create',
-                    component: require('../components/product/edit').default,
+                    component: require('../components/products/edit').default,
                     meta:{
                         title:'Thêm sản phẩm',
                         action: 'create'
@@ -62,7 +62,7 @@ const router = new VueRouter({
                 {
                     path:'/product/:id/update',
                     name:'product.update',
-                    component: require('../components/product/edit').default,
+                    component: require('../components/products/edit').default,
                     meta:{
                         title:'Cập nhật sản phẩm',
                         action: 'update'
@@ -71,7 +71,7 @@ const router = new VueRouter({
                 {
                     path:'/setting/profile',
                     name:'profile',
-                    component: require('../components/setting/profile').default,
+                    component: require('../components/settings/profile').default,
                     meta:{
                         title:'Cá nhân'
                     }
@@ -79,7 +79,7 @@ const router = new VueRouter({
                 {
                     path:'/setting',
                     name:'setting',
-                    component: require('../components/setting/index').default,
+                    component: require('../components/settings/index').default,
                     meta:{
                         title:'Hệ thống'
                     }
@@ -87,7 +87,7 @@ const router = new VueRouter({
                 {
                     path:'/role',
                     name:'role',
-                    component: require('../components/setting/role').default,
+                    component: require('../components/settings/role').default,
                     meta:{
                         title:'Role'
                     }
@@ -95,7 +95,7 @@ const router = new VueRouter({
                 {
                     path:'/permisson',
                     name:'permission',
-                    component: require('../components/setting/permission').default,
+                    component: require('../components/settings/permission').default,
                     meta:{
                         title:'Permission'
                     }

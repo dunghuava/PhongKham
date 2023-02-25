@@ -75,7 +75,9 @@
 
 <script>
 const API_ROLE = '/api/role';
+import mixins from '../mixins.vue';
 export default {
+    mixins:[mixins],
     name:'Role',
     data(){
         return {
@@ -220,24 +222,6 @@ export default {
                     }
                 }
             });
-        },
-        state: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            return false;
-        },
-        invalidFeedback: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            let errHtml = '';
-            errors[field].forEach(function (error) {
-                errHtml += error;
-            });
-            return errHtml;
         }
     }
 }

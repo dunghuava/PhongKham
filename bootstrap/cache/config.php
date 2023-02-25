@@ -10,7 +10,7 @@
     'locale' => 'vi',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
-    'key' => 'base64:nWyJtppwXd5OAB61AF+GqJKxsnAubcGIAfhK9gKqCS0=',
+    'key' => 'base64:9bBMP0gk9kSm5prsD6ktpiRNxnbECyvbHFO6xAu1q00=',
     'cipher' => 'AES-256-CBC',
     'providers' => 
     array (
@@ -174,7 +174,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => '/home/vagrant/code/PhongKham/storage/framework/cache/data',
+        'path' => 'C:\\laragon\\www\\PhongKham\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -224,7 +224,7 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'phongkham',
+        'database' => 'PhongKham',
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -234,9 +234,9 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'phongkham',
-        'username' => 'homestead',
-        'password' => 'secret',
+        'database' => 'PhongKham',
+        'username' => 'root',
+        'password' => '',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -254,9 +254,9 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'phongkham',
-        'username' => 'homestead',
-        'password' => 'secret',
+        'database' => 'PhongKham',
+        'username' => 'root',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -269,9 +269,9 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'phongkham',
-        'username' => 'homestead',
-        'password' => 'secret',
+        'database' => 'PhongKham',
+        'username' => 'root',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -313,12 +313,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => '/home/vagrant/code/PhongKham/storage/app',
+        'root' => 'C:\\laragon\\www\\PhongKham\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => '/home/vagrant/code/PhongKham/storage/app/public',
+        'root' => 'C:\\laragon\\www\\PhongKham\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -364,13 +364,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => '/home/vagrant/code/PhongKham/storage/logs/laravel.log',
+        'path' => 'C:\\laragon\\www\\PhongKham\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => '/home/vagrant/code/PhongKham/storage/logs/laravel.log',
+        'path' => 'C:\\laragon\\www\\PhongKham\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -434,7 +434,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => '/home/vagrant/code/PhongKham/resources/views/vendor/mail',
+        0 => 'C:\\laragon\\www\\PhongKham\\resources\\views/vendor/mail',
       ),
     ),
     'log_channel' => NULL,
@@ -570,7 +570,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => '/home/vagrant/code/PhongKham/storage/framework/sessions',
+    'files' => 'C:\\laragon\\www\\PhongKham\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -590,9 +590,9 @@
   array (
     'paths' => 
     array (
-      0 => '/home/vagrant/code/PhongKham/resources/views',
+      0 => 'C:\\laragon\\www\\PhongKham\\resources\\views',
     ),
-    'compiled' => '/home/vagrant/code/PhongKham/storage/framework/views',
+    'compiled' => 'C:\\laragon\\www\\PhongKham\\storage\\framework\\views',
   ),
   'debug-server' => 
   array (
@@ -602,6 +602,21 @@
   array (
     'proxies' => NULL,
     'headers' => 30,
+  ),
+  'vue-i18n-generator' => 
+  array (
+    'langPath' => '/resources/lang',
+    'langFiles' => 
+    array (
+    ),
+    'excludes' => 
+    array (
+    ),
+    'jsPath' => '/resources/js/langs/',
+    'jsFile' => '/resources/js/vue-i18n-locales.generated.js',
+    'i18nLib' => 'vue-i18n',
+    'showOutputMessages' => false,
+    'escape_char' => '!',
   ),
   'tinker' => 
   array (

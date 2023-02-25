@@ -94,7 +94,9 @@
 
 <script>
 const API_USER = '/api/user';
+import mixins from '../mixins.vue';
 export default {
+    mixins:[mixins],
     name:'EditUser',
     data() {
         return {
@@ -159,24 +161,6 @@ export default {
         },
         formatUserName:function(value){
             return value.replace(/[^a-zA-Z0-9_-]/g,'').toLocaleString();
-        },
-        state: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            return false;
-        },
-        invalidFeedback: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            let errHtml = '';
-            errors[field].forEach(function (error) {
-                errHtml += error;
-            });
-            return errHtml;
         },
         onFileChange(e) {
             let vm = this;

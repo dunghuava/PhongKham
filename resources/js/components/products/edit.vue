@@ -6,7 +6,16 @@
                 <div>
                     <b-card bg-variant="light">
                         <b-form-group
-                            label="Tên dịch vụ:"
+                            label="Mã SP:"
+                            label-cols-sm="3"
+                            label-align-sm="right"
+                            :invalid-feedback="invalidFeedback('code')"
+                        >
+                            <b-form-input :formatter="formatCode" v-model="form.code" :state="state('code')"></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group
+                            label="Tên sản phẩm:"
                             label-cols-sm="3"
                             label-align-sm="right"
                             :invalid-feedback="invalidFeedback('name')"
@@ -15,7 +24,7 @@
                         </b-form-group>
 
                         <b-form-group
-                            label="Đơn giá:"
+                            label="Giá bán:"
                             label-cols-sm="3"
                             label-align-sm="right"
                         >
@@ -43,14 +52,14 @@
                             label-align-sm="right"
                             class="mb-0 mt-2"
                         >
-                            <b-button :to="{name:'service'}" variant="danger">
+                            <b-button :to="{name:'product'}" variant="danger">
                                 <i class="fa fa-arrow-left"></i> Hủy
                             </b-button>
                             <b-button v-if="action == 'update'" @click="updateItem" variant="success">
-                                <i class="fa fa-save"></i> Cập nhật
+                                <b-spinner v-if="isBusy" small label="Small Spinner"></b-spinner> Cập nhật
                             </b-button>
                             <b-button v-else @click="createItem" variant="success">
-                                <i class="fa fa-save"></i> Thêm mới
+                                <b-spinner v-if="isBusy" small label="Small Spinner"></b-spinner> Thêm mới
                             </b-button>
                         </b-form-group>
                     </b-card>
@@ -61,9 +70,11 @@
 </template>
 
 <script>
-const API_PRODUCT = '/api/service';
+const API_PRODUCT = '/api/product';
+import mixins from '../mixins.vue';
 export default {
-    name:'EditService',
+    mixins:[mixins],
+    name:'EditProduct',
     data() {
         return {
             isBusy:false,
@@ -87,7 +98,7 @@ export default {
             vm.getItem(vm.id);
         }
         vm.breadcrumb.push({
-            text:'Dịch vụ',
+            text:'Sản phẩm',
             href:'#'
         });
     },
@@ -106,7 +117,7 @@ export default {
             vm.isBusy = true;
             axios.post(API_PRODUCT,vm.form).then(function (response){
                 vm.isBusy = false;
-                vm.$router.push({name:'service'});
+                vm.$router.push({name:'product'});
             }).catch(function(errors){
                 vm.isBusy = false;
                 vm.errors = errors.response.data.errors;
@@ -123,23 +134,8 @@ export default {
                 vm.errors = errors.response.data.errors;
             });
         },
-        state: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            return false;
-        },
-        invalidFeedback: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            let errHtml = '';
-            errors[field].forEach(function (error) {
-                errHtml += error;
-            });
-            return errHtml;
+        formatCode:function(value){
+            return value.replace(/[^a-zA-Z0-9_-]/g,'').toLocaleString();
         }
     }
 }

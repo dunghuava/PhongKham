@@ -36,7 +36,9 @@
 </template>
 
 <script>
+import mixins from '../mixins.vue';
 export default {
+    mixins:[mixins],
     name:'Login',
     data(){
         return {
@@ -65,24 +67,6 @@ export default {
                 vm.process = false;
                 vm.errors = errors.response.data || {};
             });
-        },
-        state: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            return false;
-        },
-        invalidFeedback: function (field) {
-            let errors = this.errors;
-            if (!errors.hasOwnProperty(field)) {
-                return;
-            }
-            let errHtml = '';
-            errors[field].forEach(function (error) {
-                errHtml += error;
-            });
-            return errHtml;
         }
     }
 }

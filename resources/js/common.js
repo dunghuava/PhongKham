@@ -129,9 +129,6 @@ axios.defaults.transformResponse.push(function (data) {
                 return  axios.post('/auth/info').then(function(response){
                     window.info = response.data;
                 })
-            },
-            toPrice:function(value){
-                return Number(value.replace(/[^0-9]/g,'')).toLocaleString();
             }
         }
     });
@@ -140,6 +137,6 @@ axios.defaults.transformResponse.push(function (data) {
         i18n,
         template:'<app></app>',
         components: {app},
-        router
+        router,
     })
 });
